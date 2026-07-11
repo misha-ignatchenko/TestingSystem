@@ -1,1 +1,4 @@
-<Solution />
+<Solution>
+  <Project Path="LoadTestingSystem.API/LoadTestingSystem.API.csproj" />
+  <Project Path="LoadTestingSystem.Desktop/LoadTestingSystem.Desktop.csproj" />
+</Solution>
