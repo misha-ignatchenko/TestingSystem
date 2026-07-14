@@ -17,10 +17,30 @@ namespace LoadTestingSystem.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int page = 1, int pageSize = 10)
         {
-            var results = _context.LoadTestResults.ToList();
-            return Ok(results);
+            if (page < 1 || pageSize < 1)
+                return BadRequest("page і pageSize повинні бути більше 0.");
+
+            var totalCount = _context.LoadTestResults.Count();
+
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            var results = _context.LoadTestResults
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var response = new PagedResult<LoadTestResult>
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Items = results
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
