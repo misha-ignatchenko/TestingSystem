@@ -1,4 +1,8 @@
-﻿namespace LoadTestingSystem.API.DTOs
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LoadTestingSystem.Desktop.DTOs
 {
     public class CreateLoadTestResult
     {

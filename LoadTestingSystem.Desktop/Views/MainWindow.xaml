@@ -5,8 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LoadTestingSystem.Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+           Text="Результати тестування"
+           FontSize="24"
+           FontWeight="Bold"
+           HorizontalAlignment="Center"
+           Margin="0,20,0,20"/>
+
+        <StackPanel Grid.Row="1"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0,0,0,15">
+
+            <Button Content="Додати"
+                Width="110"
+                Height="35"
+                Margin="5"
+                Click="AddButton_Click"/>
+
+            <Button Content="Редагувати"
+                Width="110"
+                Height="35"
+                Margin="5"
+                Click="EditButton_Click"/>
+
+            <Button Content="Видалити"
+                Width="110"
+                Height="35"
+                Margin="5"
+                Click="DeleteButton_Click"/>
+
+        </StackPanel>
+
+        <DataGrid Grid.Row="2"
+                  x:Name="ResultsDataGrid"
+                  Margin="10"
+                  AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Назва"
+                    Binding="{Binding TestName}" />
+
+                <DataGridTextColumn Header="RPS"
+                    Binding="{Binding RequestsPerSecond}" />
+
+                <DataGridTextColumn Header="Середній час"
+                    Binding="{Binding AverageResponseTime}" />
+
+                <DataGridTextColumn Header="Помилки"
+                    Binding="{Binding ErrorCount}" />
+
+                <DataGridTextColumn Header="Дата"
+                    Binding="{Binding TestDate}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
 
     </Grid>
 </Window>

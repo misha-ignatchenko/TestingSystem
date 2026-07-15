@@ -26,10 +26,7 @@ namespace LoadTestingSystem.API.Controllers
 
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
-            var results = _context.LoadTestResults
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+            var results = _context.LoadTestResults.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var response = new PagedResult<LoadTestResult>
             {
@@ -52,7 +49,7 @@ namespace LoadTestingSystem.API.Controllers
                 RequestsPerSecond = dto.RequestsPerSecond,
                 AverageResponseTime = dto.AverageResponseTime,
                 ErrorCount = dto.ErrorCount,
-                TestDate = dto.TestDate
+                TestDate = DateTime.Now
             };
 
             _context.LoadTestResults.Add(result);
@@ -74,7 +71,7 @@ namespace LoadTestingSystem.API.Controllers
             result.RequestsPerSecond = dto.RequestsPerSecond;
             result.AverageResponseTime = dto.AverageResponseTime;
             result.ErrorCount = dto.ErrorCount;
-            result.TestDate = dto.TestDate;
+            result.TestDate = DateTime.Now;
 
             _context.SaveChanges();
 
