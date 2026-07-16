@@ -18,10 +18,11 @@ namespace LoadTestingSystem.API.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Login == request.Login && u.PasswordHash == request.Password);
-            if(user == null)
+            var user = _context.Users.FirstOrDefault(u => u.Login == request.Login);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 return Unauthorized();
-            
+
             return Ok();
         }
     }

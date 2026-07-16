@@ -15,12 +15,14 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+    context.Database.Migrate();
+
     if (!context.Users.Any())
     {
         context.Users.Add(new User
         {
             Login = "admin",
-            PasswordHash = "12345"
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("12345")
         });
 
         context.SaveChanges();
