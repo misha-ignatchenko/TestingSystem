@@ -71,5 +71,24 @@
 
         </DataGrid>
 
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="3"
+                    HorizontalAlignment="Center">
+            <Button Content="Попередня"
+                Width="70"
+                Height="25"
+                Click="PreviousButton_Click"
+                x:Name="PreviousButton"/>
+            <TextBlock Text="1 / 1"
+                Margin="15,0"
+                VerticalAlignment="Center"
+                x:Name="PageInfoTextBlock"/>
+            <Button Content="Наступна"
+                Width="70"
+                Height="25"
+                Click="NextButton_Click"
+                x:Name="NextButton"/>
+        </StackPanel>
+
     </Grid>
 </Window>
