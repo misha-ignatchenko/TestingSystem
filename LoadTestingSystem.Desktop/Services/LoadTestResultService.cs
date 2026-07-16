@@ -34,5 +34,19 @@ namespace LoadTestingSystem.Desktop.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> UpdateAsync(int id, CreateLoadTestResult request)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/api/LoadTestResults/{id}",request);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"{BaseUrl}/api/LoadTestResults/{id}");
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

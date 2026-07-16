@@ -16,10 +16,25 @@ namespace LoadTestingSystem.Desktop.Views
 {
     public partial class AddLoadTestResultWindow : Window
     {
+        private bool _isEditMode;
+        private int _currentId;
         private readonly LoadTestResultService _loadTestResultService = new();
         public AddLoadTestResultWindow()
         {
             InitializeComponent();
+        }
+
+        public AddLoadTestResultWindow(LoadTestResultDto result)
+        {
+            InitializeComponent();
+
+            _currentId = result.Id;
+            _isEditMode = true;
+
+            NameTextBox.Text = result.TestName;
+            RPSTextBox.Text = result.RequestsPerSecond.ToString();
+            AvgTimeTextBox.Text = result.AverageResponseTime.ToString();
+            ErrorsCountTextBox.Text = result.ErrorCount.ToString();  
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -57,7 +72,16 @@ namespace LoadTestingSystem.Desktop.Views
                 ErrorCount = er
             };
 
-            bool success = await _loadTestResultService.CreateAsync(request);
+            bool success;
+
+            if (_isEditMode)
+            {
+                success = await _loadTestResultService.UpdateAsync(_currentId, request);
+            }
+            else
+            {
+                success = await _loadTestResultService.CreateAsync(request);
+            }
 
             if (success)
             {

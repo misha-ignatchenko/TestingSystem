@@ -1,4 +1,5 @@
-﻿using LoadTestingSystem.Desktop.Services;
+﻿using LoadTestingSystem.Desktop.DTOs;
+using LoadTestingSystem.Desktop.Services;
 using LoadTestingSystem.Desktop.Views;
 using System.Windows;
 
@@ -36,14 +37,52 @@ namespace LoadTestingSystem.Desktop
             }
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
+            LoadTestResultDto? selected = ResultsDataGrid.SelectedItem as LoadTestResultDto;
 
+            if (selected == null)
+            {
+                MessageBox.Show("Оберіть запис для редагування.");
+                return;
+            }
+
+            AddLoadTestResultWindow window = new(selected);
+            bool? result = window.ShowDialog();
+
+            if (result == true)
+            {
+                await LoadDataAsync();
+            }
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            LoadTestResultDto? selected = ResultsDataGrid.SelectedItem as LoadTestResultDto;
 
+            if (selected == null)
+            {
+                MessageBox.Show("Оберіть запис для видалення.");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Ви дійсно хочете видалити цей запис?","Підтвердження",MessageBoxButton.YesNo,MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            bool success = await _loadTestResultService.DeleteAsync(selected.Id);
+
+            if (success)
+            {
+                await LoadDataAsync();
+            }
+            else
+            {
+                MessageBox.Show("Не вдалося видалити запис.");
+            }
         }
     }
 }
